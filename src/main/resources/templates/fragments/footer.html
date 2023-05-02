@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<footer class="blog-footer bg-inverse" data-th-fragment="footer">
+    <input type="hidden" id="foot_userId" th:value="${userId}">
+    <a id="goToTop" href="#">
+        <i class="fa fa-chevron-up fa-3x" aria-hidden="true"></i>
+    </a>
+    <div class="container">
+        <p class="m-0 text-center text-white">© 2017 <a href="https://doin.cool">doin.com</a></p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../../js/jquery-3.1.1.min.js" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <script src="../../js/jquery.form.min.js" th:src="@{/js/jquery.form.min.js}"></script>
+    <script src="../../js/tether.min.js" th:src="@{/js/tether.min.js}"></script>
+    <script src="../../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="../../js/nprogress.js" th:src="@{/js/nprogress.js}"></script>
+    <script src="../../js/thinker-md.vendor.min.js" th:src="@{/js/thinker-md.vendor.min.js}"></script>
+    <script src="../../js/jquery.tag-editor.min.js" th:src="@{/js/jquery.tag-editor.min.js}"></script>
+    <script src="../../js/chosen.jquery.js" th:src="@{/js/chosen.jquery.js}"></script>
+    <script src="../../js/toastr.min.js" th:src="@{/js/toastr.min.js}"></script>
+    <script src="../../js/cropbox.js" th:src="@{/js/cropbox.js}"></script>
+    <script src="../../js/thymeleaf-bootstrap-paginator.js" th:src="@{/js/thymeleaf-bootstrap-paginator.js}"></script>
+    <script src="../../js/catalog-generator.js" th:src="@{/js/catalog-generator.js}"></script>
+    <script src="../../js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="../../editor.md/editormd.min.js" th:src="@{/editor.md/editormd.min.js}"></script>
+    <script>
+        var websocket;
+        if (!window.WebSocket) {
+            window.WebSocket = window.MozWebSocket;
+        }
+        if (window.WebSocket) {
+            websocket = new WebSocket("ws://127.0.0.1:11111/ws"+"?userId=" + $("#foot_userId").val());
+            websocket.onmessage = function (event) {
+                var json = JSON.parse(event.data);
+                chat.onmessage(json);
+            };
+            websocket.onopen = function (event) {
+                console.log("Netty-WebSocket服务器。。。。。。连接");
+            };
+            websocket.onclose = function (event) {
+                console.log("Netty-WebSocket服务器。。。。。。关闭");
+            };
+        } else {
+            alert("您的浏览器不支持WebSocket协议！");
+        }
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function () {
+            if (websocket != null) {
+                websocket.close();
+            }
+        };
+    </script>
+</footer>
+
+</body>
+
+</html>

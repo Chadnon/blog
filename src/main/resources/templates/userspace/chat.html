@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <title>Hope.webChat主页</title>
+    <link rel="stylesheet" th:href="@{/css/wxchat/amazeui.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/wxchat/main.css}"/>
+
+</head>
+<body>
+<style type="text/css">
+    .content {
+        display: none;
+        position: absolute;
+        top: 0px;
+    }
+
+    .windowBody_active {
+        display: inline;
+    }
+
+    .user_active {
+        background-color: #C0BFBF;
+    }
+
+    .group-user-item {
+        float: left;
+        margin: 5% 3%
+    }
+
+    .group-user-item dd {
+        width: 60px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .user_message{
+        width: 100px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+</style>
+<div class="box">
+    <div class="wechat">
+       <!-- <div class="sidestrip">
+
+            <div class="am-dropdown" data-am-dropdown>
+                &lt;!&ndash;-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;头像插件-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                <div class="own_head am-dropdown-toggle"
+                     th:style="'background: url(\''+${user.avatar}+'\');background-size: 34px'"></div>
+                <input type="hidden" id="userId" th:value="${user.id}">
+                <input type="hidden" id="myHeadImg" th:value="${user.avatar}">
+                <input type="hidden" id="ws" th:value="${ws}">
+                <div class="am-dropdown-content">
+                    <div class="own_head_top">
+                        <div class="own_head_top_text">
+                            <p class="own_name"><span th:text="${user.username}"></span>
+                                &lt;!&ndash; <img th:src="'/static/images/icon/'+${user.gender.image}" alt=""/>&ndash;&gt;</p>
+                            &lt;!&ndash;<p class="own_numb" th:text="'帐号：'+${user.wxCode}"></p>&ndash;&gt;
+                        </div>
+                        <img th:src="${user.avatar}" alt=""/>
+                    </div>
+                    <div class="own_head_bottom">
+                        &lt;!&ndash;<p th:utext="'<span>地区</span>'+${user.address}"></p>&ndash;&gt;
+                        <div class="own_head_bottom_img">
+                            <a href=""><img src="../../images/icon/head_1.png"/></a>
+                            <a href=""><img src="../../images/icon/head_2.png"/></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            &lt;!&ndash;三图标&ndash;&gt;
+            <div class="sidestrip_icon">
+                <a id="si_1" style="background: url(../../images/icon/head_2_1.png) no-repeat;"></a>
+                <a id="si_2"></a>
+                <a id="si_3"></a>
+            </div>
+
+            &lt;!&ndash;底部扩展键&ndash;&gt;
+            <div id="doc-dropdown-justify-js">
+                <div class="am-dropdown" id="doc-dropdown-js" style="position: initial;">
+                    <div class="sidestrip_bc am-dropdown-toggle"></div>
+                    <ul class="am-dropdown-content" style="">
+                        <li>
+                            <a href="#"
+                               data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 400, height: 225}">意见反馈</a>
+                            <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+                                <div class="am-modal-dialog">
+                                    <div class="am-modal-hd">Modal 标题
+                                        <a href="javascript: void(0)" class="am-close am-close-spin"
+                                           data-am-modal-close>&times;</a>
+                                    </div>
+                                    <div class="am-modal-bd">
+                                        Modal 内容。本 Modal 无法通过遮罩层关闭。
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li><a href="#">备份与恢复</a></li>
+                        <li><a href="#">设置</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>-->
+
+        <!------------------------------------------------------------聊天列表--------------------------------------------------------------->
+        <div class="middle on">
+<!--            <div class="wx_search">-->
+<!--                <input class="windowSearch" type="text" placeholder="搜索"/>-->
+<!--                <button>+</button>-->
+<!--            </div>-->
+            <input type="hidden" id="userId" th:value="${user.id}">
+            <input type="hidden" id="username" th:value="${user.username}">
+            <input type="hidden" id="myHeadImg" th:value="${user.avatar}">
+            <input type="hidden" id="ws" th:value="${ws}">
+            <input type="hidden" id="originalFriendId" th:value="${friendId}">
+            <input type="hidden" id="exist" th:value="${exist}">
+            <div class="office_text">
+                <ul class="user_list" id="user_list">
+                    <li th:class="${iterStat.first?'user_active user_item':'user_item'}" th:name="${chatView.name}"
+                        th:id="${chatView.type+'_'+chatView.id}" th:each="chatView,iterStat :${chatViews}"
+                        th:attr="userId=${chatView.userId}, friendId=${chatView.friendId}">
+                        <input type="hidden" th:id="${'uid_'+chatView.friendId}">
+                        <input type="hidden" th:if="${iterStat.first}" th:id="firstFriendId" th:value="${chatView.friendId}">
+                        <div class="user_head"><img th:src="${user.avatar}"/></div>
+                        <div class="user_text">
+                            <p class="user_name"  th:text="${chatView.name}"></p>
+                            <p class="user_message" th:utext="${chatView.message}"></p>
+                        </div>
+                        <div class="user_time" th:text="${chatView.getLastDay()}" ></div>
+                        <span><p> <span th:class="${chatView.unreadCount gt 0 ? 'redpoint' : 'hiddenpoint'}"  th:id="${chatView.friendId+'_unread'}"  data-th-text="${chatView.unreadCount}">""</span></p></span>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <!--&lt;!&ndash;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;通讯录列表&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+        <div class="middle">
+            <div class="wx_search">
+                <input type="text" class="windowSearch" placeholder="搜索"/>
+                <button>+</button>
+            </div>
+            <div class="office_text">
+                <ul class="friends_list">
+                    <li>
+                        <p>新的朋友</p>
+                        <div class="friends_box">
+                            <div class="user_head"><img src="../../images/head/1.jpg"/></div>
+                            <div class="friends_text">
+                                <p class="user_name">新的朋友</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <p>公众号</p>
+                        <div class="friends_box">
+                            <div class="user_head"><img src="../../images/head/2.jpg"/></div>
+                            <div class="friends_text">
+                                <p class="user_name">公众号</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li th:each="mailEntry:${mailLists}">
+                        <p th:text="${mailEntry.key}"></p>
+                        <div class="friends_box" th:each="user:${mailEntry.value}">
+                            <input type="hidden" name="userId" th:value="${user.userId}">
+                            <div class="user_head"><img th:src="${user.avatar}"/></div>
+                            <div class="friends_text">
+                                <p class="user_name" th:text="${user.username}"></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>-->
+
+        <!--聊天窗口-->
+        <div class="talk_window">
+            <div class="windows_top">
+                <div class="windows_top_box">
+                    <span id="window-firendName" th:text="${chatViews[0].name}"></span>
+                    <ul class="window_icon">
+                        <li><a href=""><img th:src="@{/images/icon/icon7.png}"/></a></li>
+                        <li><a href=""><img th:src="@{/images/icon/icon8.png}"/></a></li>
+                        <li><a href=""><img th:src="@{/images/icon/icon9.png}"/></a></li>
+                        <li><a href=""><img th:src="@{/images/icon/icon10.png}"/></a></li>
+                    </ul>
+
+                </div>
+            </div>
+
+
+            <!------------------------------------------------------------聊天内容------------------------------------------------------------------------------------->
+            <div class="windows_body">
+                <div class="office_text" style="height: 100%;" id="chatbox">
+                    <ul th:each="chatMain,iterStat :${chatMainList}" class="content" th:name="${chatMain.friendId}"
+                        th:id="${'mailBody_'+chatMain.id}">
+                        <li th:each="message :${chatMain.chatMessageList}"
+                            th:class="${message.chatMainId==chatMain.id}?'me':'other'">
+                            <img th:src="${message.chatMainId==chatMain.id?user.avatar:chatMain.friendHeadImg}"
+                                 th:title="${message.chatMainId==chatMain.id?user.username:1}">
+                            <div contenteditable="true" class="editDiv" th:utext="${message.content}"></div>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+            <div class="windows_input" id="talkbox">
+                <div class="input_icon">
+                    <a class="emotion btn" href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                    <a href="javascript:;"></a>
+                </div>
+                <div class="input_box">
+                    <div contenteditable="true" id="input_box" ></div>
+                    <button id="send">发送（S）</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}">...</div>
+<script src="../../js/amazeui.min.js" th:src="@{/js/amazeui.min.js}"></script>
+<script src="../../js/zUI.js" th:src="@{/js/zUI.js}"></script>
+<script src="../../js/wechat.js" th:src="@{/js/wechat.js}"></script>
+<script src="../../qqbq/jquery.qqFace.js" th:src="@{/qqbq/jquery.qqFace.js}"></script>
+
+</body>
+<script type="text/javascript">
+    $("#user_list li").each(function () {
+        var id= "#"+ $(this).attr("friendId")+'_unread'
+        if(Number($(id).text()) == 0){
+            $(id).hide();
+        }
+    })
+
+
+    chat.readMessage($("#userId").val(),$("#firstFriendId").val());
+    chat.openTargetView($("#originalFriendId").val(), $("#exist"));
+</script>
+</html>

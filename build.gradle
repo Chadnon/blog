@@ -1,0 +1,75 @@
+buildscript {
+
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.1.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+ext['elasticsearch.version'] = '6.2.4'
+group = 'com.cdn.spring.boot.blog'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+
+repositories {
+	repositories {
+		maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+
+		google()
+		jcenter()
+//		mavenCentral()
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+    implementation 'junit:junit:4.12'
+	// 添加 Thymeleaf 的依赖
+	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+	// 添加 Apache Commons Lang 依赖
+	implementation('org.apache.commons:commons-lang3:3.5')
+	// 添加 Spring Data JPA 的依赖
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+
+	// 添加 MySQL连接驱动 的依赖
+	implementation('mysql:mysql-connector-java:6.0.5')
+	//implementation('com.h2database:h2:1.4.193')
+
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE')
+
+	// 添加 Spring Data Elasticsearch 的依赖
+	implementation('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+
+	// 添加  JNA 的依赖
+	implementation('net.java.dev.jna:jna:4.3.0')
+
+	// 添加 Markdown parser 依赖
+	implementation('es.nitaur.markdown:txtmark:0.16')
+
+	// 添加 Markdown parser 依赖
+	implementation('org.springframework.boot:spring-boot-starter-data-redis')
+
+	// 添加 netty核心组件
+	implementation('io.netty:netty-all:4.1.36.Final')
+
+	// 根据中文获取首字母用
+	implementation('com.belerweb:pinyin4j:2.5.0')
+
+	// json转换器
+	implementation('com.alibaba:fastjson:1.2.14')
+
+    implementation('org.projectlombok:lombok:1.16.10')
+
+	implementation('commons-fileupload:commons-fileupload:1.3.1')
+
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="~{fragments/header :: header}">
+</head>
+<body>
+<!-- Page Content -->
+<div class="container blog-content-container">
+
+    <div class="row">
+
+        <!-- 左侧栏目 -->
+        <div class="col-md-4 col-xl-3">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <span>
+                      <a href="/u/doin" th:href="'/u/' + ${user.username}" title="doin" th:title="${user.username}" >
+                        <img th:src="${user.avatar} == null ? '/images/avatar-defualt.jpg' : ${user.avatar} " 
+                         class="blog-avatar-230"
+                             alt="doin" th:alt="${#authentication.name}">
+                      </a>
+                    </span>
+
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <h2 class="card-text" th:text="${user.name}">老陈</h2>
+                    <h4 class="card-text" th:text="${user.username}">doin</h4>
+                </div>
+            </div>
+
+           
+            <div class="row ">
+                <div class="col-md-12">
+                    <h5><i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <a href="mailto:waylau521@gmail.com" th:href="'mailto:'+ ${user.email}" th:text="${user.email}">doin521@gmail.com</a></h5>
+                </div>
+            </div>
+            
+            <hr>
+
+            <!-- 选项 -->
+            <div class="card my-4">
+                <h5 class="card-header"><i class="fa fa-fire" aria-hidden="true"></i><a>关注列表</a></h5>
+                <h5 class="card-header" ><i class="fa fa-fire" aria-hidden="true" ></i>
+                    <a href="/u/doin/fans" th:href="@{'/u/' + ${#authentication.name}} + '/fans'">
+                        粉丝列表
+                    </a></h5>
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- 右侧栏目 -->
+
+
+        <div class="col-md-8 col-xl-9">
+
+            <!-- Blog Post -->
+            <div id="mainContainer">
+                <div id="mainContainerRepleace">
+                    <div class="card mb-4" th:each="follow : ${followList}">
+                        <div class="card-block">
+                            <h2 class="card-title">
+		                 		<span>
+				                  <a href="/u/doin" title="doin" th:href="'/u/' + ${follow.username}"  th:title="${follow.username}">
+				                    <img src="/images/avatar-defualt.jpg" th:src="${follow.avatar} == null ? '/images/avatar-defualt.jpg' : ${follow.avatar}"  class="blog-avatar-50">
+				                  </a>
+						        </span>
+                                <a href="/u/doin/blogs/1" class="card-link" title="doin"
+                                   th:href="'/u/' + ${follow.username}"  th:title="${follow.username}" th:text="${follow.username}">
+                                    doin
+                                </a>
+                            </h2>
+
+                        </div>
+                    </div>
+
+                    <div th:replace="~{fragments/page :: page}">...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<div th:replace="~{fragments/footer :: footer}">...</div>
+<!-- JavaScript -->
+<script th:inline="javascript">
+var username = [[${user.username}]];
+</script>
+<script src="../../js/userspace/u.js" th:src="@{/js/userspace/u.js}"></script>
+</body>
+</html>

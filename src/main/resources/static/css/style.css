@@ -1,0 +1,43 @@
+/*!
+* Override Bootstrap style.
+*
+* @since: 1.0.0
+* @author Way Lau <https://waylau.com>
+*/
+
+.badge {
+  margin-left: auto; 
+}
+
+.hidden { 
+	display: none !important; 
+}
+
+.redpoint{
+    height:18px;
+    width:18px;
+    border-radius:18px;
+    display:inline-block;
+    text-align:center;
+    font-size:0.1em;
+    color:#fff;
+    background:red;
+    position: relative;
+    top: -8px;
+    right: 8px;
+}
+
+.hiddenpoint{
+    height:18px;
+    width:18px;
+    border-radius:18px;
+    display:inline-block;
+    text-align:center;
+    font-size:0.1em;
+    color:#fff;
+    background:red;
+    position: relative;
+    top: -8px;
+    right: 8px;
+    opacity:0
+}
