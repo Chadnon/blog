@@ -1,7 +1,5 @@
-/**
- * Bolg main JS.
- * Created by waylau.com on 2017/3/9.
- */
+/*globals $:false */
+/* jshint node: true */
 "use strict";
 //# sourceURL=main.js
 
