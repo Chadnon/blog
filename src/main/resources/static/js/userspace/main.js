@@ -2,8 +2,9 @@
  * Avatar JS.
  * 
  * @since: 1.0.0 2017/4/6
- * @author Way Lau <https://waylau.com>
  */
+/*globals $:false */
+/* jshint node: true */
 "use strict";
 //# sourceURL=main.js
  

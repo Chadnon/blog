@@ -2,7 +2,6 @@
  * 分页处理.
  * 
  * @since: 1.0.0
- * @author Way Lau <https://waylau.com>
  */
 (function($) {
 	

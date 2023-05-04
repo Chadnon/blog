@@ -1,9 +1,5 @@
-/*!
-  * Bolg main JS.
- * 
- * @since: 1.0.0 2017/3/9
- * @author Way Lau <https://waylau.com>
- */
+/*globals $:false */
+/* jshint node: true */
 "use strict";
 //# sourceURL=main.js
  
@@ -73,8 +69,8 @@ $(function() {
 	$("#submitEdit").click(function() {
 		$.ajax({ 
 			 url: "/users", 
-			 type: 'POST',
-			 data:$('#userForm').serialize(),
+			 type: "POST",
+			 data:$("#userForm").serialize(),
 			 success: function(data){
 				 $('#userForm')[0].reset();  
 				 

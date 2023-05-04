@@ -2,8 +2,9 @@
  * blog.html 页面脚本.
  * 
  * @since: 1.0.0 2017-03-26
- * @author Way Lau <https://waylau.com>
  */
+/*globals $:false */
+/* jshint node: true */
 "use strict";
 //# sourceURL=blog.js
 

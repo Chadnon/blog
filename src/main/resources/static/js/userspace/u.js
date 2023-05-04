@@ -2,8 +2,9 @@
  * u main JS.
  * 
  * @since: 1.0.0 2017/3/9
- * @author Way Lau <https://waylau.com>
  */
+/*globals $:false */
+/* jshint node: true */
 "use strict";
 //# sourceURL=u.js
 
