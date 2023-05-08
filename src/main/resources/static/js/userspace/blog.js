@@ -89,7 +89,7 @@ $(function() {
 			}
 		});
 	});
-
+	//删除评论
 	$(".blog-content-container").on("click",".blog-delete-comment", function () {
 		// 获取 CSRF Token
 		var csrfToken = $("meta[name='_csrf']").attr("content");
@@ -143,7 +143,7 @@ $(function() {
 		});
 	});
 
-	// 提交点赞
+	// 撤销点赞
 	$(".blog-content-container").on("click","#cancelVote", function () {
 		// 获取 CSRF Token
 		var csrfToken = $("meta[name='_csrf']").attr("content");
@@ -233,32 +233,6 @@ $(function() {
 		});
 	});
 
-	// 取消关注
-	$(".blog-content-container").on("click","#cancelFollow", function () {
-		// 获取 CSRF Token
-		var csrfToken = $("meta[name='_csrf']").attr("content");
-		var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-		$.ajax({
-			url: '/u/'+$(this).attr('username')+'/follow',
-			type: 'DELETE',
-			data: {"bloggerId":bloggerId},
-			beforeSend: function(request) {
-				request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
-			},
-			success: function(data){
-				if (data.success) {
-					toastr.info(data.message);
-					// 成功后，重定向
-					window.location = blogUrl;
-				} else {
-					toastr.error(data.message);
-				}
-			},
-			error : function() {
-				toastr.error("error!");
-			}
-		});
-	});
 	// 初始化 博客评论
 	getCommnet(blogId);
 

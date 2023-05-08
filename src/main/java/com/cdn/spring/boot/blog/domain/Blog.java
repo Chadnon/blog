@@ -84,6 +84,7 @@ public class Blog implements Serializable {
 
 	protected Blog() {
 	}
+
 	public Blog(String title, String summary,String content) {
 		this.title = title;
 		this.summary = summary;
@@ -122,9 +123,11 @@ public class Blog implements Serializable {
 		this.content = content;
 		this.htmlContent = Processor.process(content);
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -136,27 +139,35 @@ public class Blog implements Serializable {
 	public String getHtmlContent() {
 		return htmlContent;
 	}
+
 	public Integer getReadSize() {
 		return readSize;
 	}
+
 	public void setReadSize(Integer readSize) {
 		this.readSize = readSize;
 	}
+
 	public Integer getCommentSize() {
 		return commentSize;
 	}
+
 	public void setCommentSize(Integer commentSize) {
 		this.commentSize = commentSize;
 	}
+
 	public Integer getLikeSize() {
 		return likeSize;
 	}
+
 	public void setLikeSize(Integer likeSize) {
 		this.likeSize = likeSize;
 	}
+
 	public List<Comment> getComments() {
 		return comments;
 	}
+
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 		this.commentSize = this.comments.size();
@@ -186,6 +197,7 @@ public class Blog implements Serializable {
 		this.comments.add(comment);
 		this.commentSize = this.comments.size();
 	}
+
 	/**
 	 * 删除评论
 	 * @param commentId
@@ -197,7 +209,6 @@ public class Blog implements Serializable {
 				break;
 			}
 		}
-
 		this.commentSize = this.comments.size();
 	}
 

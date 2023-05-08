@@ -88,11 +88,16 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public Blog createComment(Long blogId, String commentContent) {
         Blog originalBlog = blogRepository.getOne(blogId);
+        // 通过Security获取当前用户
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(user.getId());
         Comment comment = new Comment(user, commentContent);
         originalBlog.addComment(comment);
-        return this.saveBlog(originalBlog);
+        try {
+            return this.saveBlog(originalBlog);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
