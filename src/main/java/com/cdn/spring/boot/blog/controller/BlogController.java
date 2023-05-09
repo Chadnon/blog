@@ -53,7 +53,6 @@ public class BlogController {
                 Pageable pageable =  PageRequest.of(pageIndex, pageSize, sort);
                 page = esBlogService.listNewestEsBlogs(keyword, pageable);
             }
-
             isEmpty = false;
         } catch (Exception e) {
             Pageable pageable = PageRequest.of(pageIndex, pageSize);

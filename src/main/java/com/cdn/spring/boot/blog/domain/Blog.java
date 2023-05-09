@@ -230,7 +230,7 @@ public class Blog implements Serializable {
 			this.votes.add(vote);
 			this.likeSize = this.votes.size();
 		}
-		System.out.println("voteSize"+likeSize);
+		//System.out.println("voteSize"+likeSize);
 		return isExist;
 	}
 

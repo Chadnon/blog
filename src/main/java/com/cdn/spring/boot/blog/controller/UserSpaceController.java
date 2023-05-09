@@ -170,12 +170,17 @@ public class UserSpaceController {
     @GetMapping("/{username}/blogs")
     public String listBlogsByOrder(@PathVariable("username") String username,
                                    @RequestParam(value = "order", required = false, defaultValue = "new") String order,
-                                   @RequestParam(value = "category", required = false) Long category,
+                                   @RequestParam(value = "catalog", required = false) Long category,
                                    @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                                    @RequestParam(value = "async", required = false) boolean async,
                                    @RequestParam(value = "pageIndex", required = false, defaultValue = "0") int pageIndex,
                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                    Model model) {
+        if (category != null) { //分类查询
+            System.out.println(category);
+        }else{
+            System.out.println("no category");
+        }
         User user = (User) userDetailsService.loadUserByUsername(username);
         model.addAttribute("user", user);
 
