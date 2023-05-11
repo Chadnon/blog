@@ -3,6 +3,7 @@ package com.cdn.spring.boot.blog.controller;
 import com.cdn.spring.boot.blog.domain.*;
 import com.cdn.spring.boot.blog.domain.es.EsBlog;
 import com.cdn.spring.boot.blog.service.*;
+import com.cdn.spring.boot.blog.util.Constant;
 import com.cdn.spring.boot.blog.util.ConstraintViolationExceptionHandler;
 import com.cdn.spring.boot.blog.util.IPUtil;
 import com.cdn.spring.boot.blog.vo.Response;
@@ -176,16 +177,12 @@ public class UserSpaceController {
                                    @RequestParam(value = "pageIndex", required = false, defaultValue = "0") int pageIndex,
                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
                                    Model model) {
-        if (category != null) { //分类查询
-            System.out.println(category);
-        }else{
-            System.out.println("no category");
-        }
-        User user = (User) userDetailsService.loadUserByUsername(username);
+
+        User user = (User) userDetailsService.loadUserByUsername(username); //博主
         model.addAttribute("user", user);
 
         boolean isBlogOwner = false;
-        User principal = null;
+        User principal = null; //当前访客
         // 判断操作的是不是自己主页
         if (SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
@@ -203,7 +200,7 @@ public class UserSpaceController {
             principal = userService.getUserById(principal.getId()); //更新用户状态
             Follow follow = followService.isFollow(principal.getId(), user.getId());
             //判断当前用户是不是博主粉丝
-            isFollow = (follow != null && follow.getStatus().equals(1));
+            isFollow = (follow != null && follow.getStatus().equals(Constant.FOLLOW_STATUS_YES));
         }
         model.addAttribute("isFollow", isFollow);
         model.addAttribute("reader", principal.getUsername());
@@ -423,20 +420,20 @@ public class UserSpaceController {
                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize) {
         User user = (User) userDetailsService.loadUserByUsername(username);
         Page<Follow> page = null;
-        List<Follow> followsList = null;
-        List<User> followList = null;
+        List<Follow> followsList;
+        List<User> resultList = null;
         try {
             Pageable pageable = PageRequest.of(pageIndex, pageSize);
             List<Long> ids = null;
             if (followOrFans.equals("follow")) {  //获取关注列表
-                page = followService.listFollowsByFansIdLike(1, user.getId(), pageable);
+                page = followService.listFollowsByFansIdLike(Constant.FOLLOW_STATUS_YES, user.getId(), pageable);
                 followsList = page.getContent();    // 当前所在页面数据列表
                 ids = new ArrayList<>();
                 for (Follow follow : followsList) {
                     ids.add(follow.getFollowId());
                 }
             } else if (followOrFans.equals("fans")) { //获取粉丝列表
-                page = followService.listFollowsByFollowerId(1, user.getId(), pageable);
+                page = followService.listFollowsByFollowerId(Constant.FOLLOW_STATUS_YES, user.getId(), pageable);
                 followsList = page.getContent();    // 当前所在页面数据列表
                 ids = new ArrayList<>();
                 for (Follow follow : followsList) {
@@ -444,13 +441,13 @@ public class UserSpaceController {
                 }
             }
 
-            followList = userService.listUsersByIds(ids);
+            resultList = userService.listUsersByIds(ids);
         } catch (Exception e) {
             e.printStackTrace();
         }
         model.addAttribute("userId", user.getId());
         model.addAttribute("user", user);
-        model.addAttribute("followList", followList);
+        model.addAttribute("followList", resultList);
         model.addAttribute("page", page);
         model.addAttribute("fileServerUrl", fileServerUrl);//文件服务器地址
         return new ModelAndView("/userspace/" + followOrFans, "userModel", model);
@@ -471,13 +468,13 @@ public class UserSpaceController {
         User user = (User) userDetailsService.loadUserByUsername(username);
         User blogger = userService.getUserById(bloggerId);
         try {
-            Follow follow = new Follow(1, user.getId(), bloggerId);
+            Follow follow = new Follow(Constant.FOLLOW_STATUS_YES, user.getId(), bloggerId);
             followService.saveFollow(follow);
         } catch (Exception e) {
             return ResponseEntity.ok().body(new Response(false, e.getMessage()));
         }
         String redirectUrl = "/u/" + blogger.getUsername() + "/blogs" + bloggerId;
-        return ResponseEntity.ok().body(new Response(true, "处理成功", redirectUrl));
+        return ResponseEntity.ok().body(new Response(true, "关注成功", redirectUrl));
     }
 
     /**
@@ -490,7 +487,6 @@ public class UserSpaceController {
     @DeleteMapping("/{username}/follow")
     @PreAuthorize("authentication.name.equals(#username)")
     public ResponseEntity<Response> deleteFollow(@PathVariable("username") String username, Long bloggerId) {
-        System.out.println("1111");
         User user = (User) userDetailsService.loadUserByUsername(username);
         User blogger = userService.getUserById(bloggerId);
         try {
@@ -500,7 +496,7 @@ public class UserSpaceController {
         }
 
         String redirectUrl = "/u/" + blogger.getUsername() + "/blogs" + bloggerId;
-        return ResponseEntity.ok().body(new Response(true, "处理成功", redirectUrl));
+        return ResponseEntity.ok().body(new Response(true, "取消关注成功", redirectUrl));
     }
 
     /**
